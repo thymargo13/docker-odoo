@@ -32,10 +32,24 @@ docker run -d --name="mysources" openerp/sources echo sources init
 
 
 Then build the Execution container and run it using the data container above
+hostame to be set to work with the right configuration file
 ```
 cd execution
 docker build -t="openerp/execution" .
-docker run -t -i --volumes-from mydata,mysources openerp/execution /bin/bash
+docker run -t -i -p 8069:8069 --hostname=odoocontainer --name="openerp" --volumes-from mydata --volumes-from mysources openerp/execution /bin/bash
 ```
+
+## A few how tos
+
+Once the execution container has been run, you can access openerp from your browser going to `localhost:8069`
+
+Do not `exit` from the container shell as it gives you a view on what is going on. If you want to stop it, prefer `docker stop openerp` from another terminal. When you want to start it again :
+
+```
+docker start openerp
+docker attach openerp
+```
+sends you back inside the container main shell
+
 
 

@@ -26,5 +26,8 @@ else
 
 fi
 
+# Lancer Openerp
+su $OPENERPUSER -c "/opt/openerp/server/openerp-server -c /home/$OPENERPUSER/openerp.conf > /home/$OPENERPUSER/openerplog&"
+
 # run commands that have been passed at the docker run level
 exec "$@"
