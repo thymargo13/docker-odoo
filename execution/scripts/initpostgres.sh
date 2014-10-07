@@ -15,11 +15,9 @@ if [ -z "$(ls -A "$PGDATA")" ]; then
     sed -ri "s/^#(listen_addresses\s*=\s*)\S+/\1'*'/" "$PGDATA"/postgresql.conf
     { echo; echo 'host all all 0.0.0.0/0 trust'; } >> "$PGDATA"/pg_hba.conf
 
-    useradd -r $OPENERPUSER
-    su postgres -c "createuser -s $OPENERPUSER"
 fi
 
- useradd -r $OPENERPUSER
- su postgres -c "pg_ctl start -l /var/logs/logpostgres"
- su postgres -c "createuser -s $OPENERPUSER"
+
+ su postgres -c "pg_ctl start -l /tmp/logpostgres"
+# su postgres -c "createuser -s $OPENERPUSER"
 exec "$@"
