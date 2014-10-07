@@ -1,6 +1,6 @@
 ##
 ## Dockerfile for a standalone OpenErp environments
-## Adapted from main postgresql docker file
+## Adapted from main postgresql docker file (see https://registry.hub.docker.com/_/postgres/)
 ##
 
 FROM ubuntu:14.04
@@ -9,12 +9,6 @@ MAINTAINER yves.nicolas@dynamease.com
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN useradd --home /var/lib/postgresql --create-home postgres
-
-# grab gosu for easy step-down from root
-#RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/* \
-#&& curl -o /usr/local/bin/gosu -SL 'https://github.com/tianon/gosu/releases/download/1.1/gosu' \
-#&& chmod +x /usr/local/bin/gosu \
-#&& apt-get purge -y --auto-remove curl
 
 # make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
 RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
@@ -27,8 +21,19 @@ ENV PG_MAJOR 9.3
 RUN apt-get update \
 && apt-get install -y postgresql-common \
 && sed -ri 's/#(create_main_cluster) .*$/\1 = false/' /etc/postgresql-common/createcluster.conf
-RUN apt-get update  && apt-get install -y postgresql-$PG_MAJOR \
-&& rm -rf /var/lib/apt/lists/*
+RUN apt-get update  && apt-get install -y postgresql-$PG_MAJOR 
+
+
+# install python libraries required by Openerp
+RUN apt-get install -y python-dateutil python-feedparser python-gdata python-ldap \
+    python-libxslt1 python-lxml python-mako python-openid python-psycopg2 \
+    python-pybabel python-pychart python-pydot python-pyparsing python-reportlab \
+    python-simplejson python-tz python-vatnumber python-vobject python-webdav \
+    python-werkzeug python-xlwt python-yaml python-zsi python-unittest2 python-mock python-docutils
+
+
+# clean apt packets
+RUN rm -rf /var/lib/apt/lists/*
 
 # Adding the good environment variable
 # Adds the executable postgres path to PATH
