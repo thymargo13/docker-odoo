@@ -3,6 +3,13 @@ docker-openerp
 
 standalone docker container for openerp enabling to test separate data and sources container
 
+Build the initial installation image (this is the long one, the one you do not want to reproduce everytime you change)
+
+```
+cd installation
+docker build -t="openerp:installation" .
+```
+
 Build a data container
 
 ```

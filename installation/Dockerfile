@@ -39,15 +39,9 @@ RUN rm /etc/environment \
 && echo PGDATA=\"$PGDATA\" >> /etc/environment
 
 
-# NAME of the openerp user
+# Adding the openerp user
 ENV OPENERPUSER erpdynamease
 RUN useradd --create-home $OPENERPUSER
 
-# Copy scripts in /usr/local/sbin and make them executable
-COPY scripts/ /usr/local/sbin
 
-RUN chmod ugo+x /usr/local/sbin/*
-
-# init database
-#ENTRYPOINT ["/usr/local/sbin/initpostgres.sh"
 
