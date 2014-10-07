@@ -41,6 +41,7 @@ docker run -t -i -p 8069:8069 --hostname=odoocontainer --name="openerp" --volume
 
 ## A few how tos
 
+### starting and stoping the container without loosing the shell
 Once the execution container has been run, you can access openerp from your browser going to `localhost:8069`
 
 Do not `exit` from the container shell as it gives you a view on what is going on. If you want to stop it, prefer `docker stop openerp` from another terminal. When you want to start it again :
@@ -50,6 +51,20 @@ docker start openerp
 docker attach openerp
 ```
 sends you back inside the container main shell
+
+### testing alternative source
+
+mount directly your sources being tested inside the execution container by replacing the `--volumes-from mysources` part in the `docker run` command by a `-v /sourcedir/on/your/computer:/opt/openerp`
+
+### uploading a test of the production database
+
+Make a backup of the database
+
+Start your execution container with a new data volume
+from localhost:8069 do an upload from the dump copy
+
+
+
 
 
 
