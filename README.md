@@ -7,7 +7,7 @@ Build the initial installation image (this is the long one, the one you do not w
 
 ```
 cd installation
-docker build -t="openerp:installation" .
+docker build -t="openerp/installation" .
 ```
 
 Build a data container
