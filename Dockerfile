@@ -42,5 +42,5 @@ USER odoo
 
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["python", "/mnt/odoo/odoo.py", "-c", "$OPENERP_SERVER"]
+CMD ["-c", "$OPENERP_SERVER"]
 
