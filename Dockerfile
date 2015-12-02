@@ -29,15 +29,18 @@ RUN apt-get -y install python-pil python-zsi \
 EXPOSE 8069 8071
 
 # Set the default config file
-# ENV OPENERP_SERVER /etc/odoo/openerp-server.conf
-# explicitly set user/group IDs
-RUN groupadd -r odoo --gid=1000 && useradd -r -g odoo --uid=1000 odoo
-RUN chown odoo /var/lib/odoo
+COPY ./openerp-server.conf /opt/odoo/
+COPY ./entrypoint.sh /
+ENV OPENERP_SERVER /opt/odoo/openerp-server.conf
 
-VOLUME /var/lib/odoo
+ # explicitly set user/group IDs
+RUN groupadd -r odoo --gid=1000 && useradd -r -g odoo --uid=1000 odoo
+RUN chown odoo:odoo /var/lib/odoo && chown -R odoo:odoo /opt
+
+VOLUME ["/var/lib/odoo", "/mnt/extra-addons", "/opt/odoo"]
 USER odoo
 
 
-
-
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["python", "/mnt/odoo/odoo.py", "-c", "$OPENERP_SERVER"]
 
