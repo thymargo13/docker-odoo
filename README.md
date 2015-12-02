@@ -9,15 +9,24 @@ However you can derive lots of things from the official odoo image howto.
 
 ## how to use it
 
+### odoo sources git preparation
+
+Whereever you want to locate them
+```
+git clone https://github.com/odoo/odoo.git
+# the image is suitable for odoo 8
+git checkout 8.0  # or what ever sub branch you want to use
+```
+
 Start a PostgreSQL server
 
 ```
-$ docker run -d -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo --name postgresdb postgres
+docker run -d -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo --name postgresdb postgres
 ```
 
 Start the Odoo container
 ```
-$ docker run -p 8069:8069 --name odoo-container --link postgresdb:db -d -v <absolute path to odoo sources>:odoo-sources -v <absolut path to your module sources>:/mnt/extra-addons odoo
+docker run-d  -p 8069:8069 --name odoo-container --link postgresdb:db  -v <absolute path to odoo sources>:odoo-sources -v <absolut path to your module sources>:/mnt/extra-addons odoo yvnicolas/odoo
 ```
 
 

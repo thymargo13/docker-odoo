@@ -35,7 +35,9 @@ ENV OPENERP_SERVER /opt/odoo/openerp-server.conf
 
  # explicitly set user/group IDs
 RUN groupadd -r odoo --gid=1000 && useradd -r -g odoo --uid=1000 odoo
-RUN chown odoo:odoo /var/lib/odoo && chown -R odoo:odoo /opt
+RUN chown odoo:odoo /var/lib/odoo \
+    && chown -R odoo:odoo /opt\
+    && chown /entrypoint.sh
 
 VOLUME ["/var/lib/odoo", "/mnt/extra-addons", "/opt/odoo"]
 USER odoo
