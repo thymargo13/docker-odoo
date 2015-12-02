@@ -1,67 +1,42 @@
-docker-openerp
+docker-odoo
 ==============
 
-standalone docker container for openerp enabling to test separate data and sources container
 
-Build the initial installation image (this is the long one, the one you do not want to reproduce everytime you change)
+A docker image for odoo that enables odoo developpers to easily have the odoo source code and their own modules source code on their PC.
+The image is adapted from the official odoo image that can not simply achieve that as the docker file uses the packaged installers.
+
+However you can derive lots of things from the official odoo image howto.
+
+## how to use it
+
+Start a PostgreSQL server
 
 ```
-cd installation
-docker build -t="openerp/installation" .
+$ docker run -d -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo --name postgresdb postgres
 ```
 
-Build a data container
-
+Start the Odoo container
 ```
-cd data
-docker build -t="openerp/data" .
-docker run -d --name="mydata" openerp/data echo data creation
-```
-
-copy the sources and put them inside a source container.
-
-Use the openerp/sources Dockerfile
-Copy it in the directory where your sources are
-inside the file, rename the COPY instruction first argument with your source directory name
-
-run 
-```
-docker build -t="openerp/sources" . 
-docker run -d --name="mysources" openerp/sources echo sources init
+$ docker run -p 8069:8069 --name odoo-container --link postgresdb:db -d -v <absolute path to odoo sources>:odoo-sources -v <absolut path to your module sources>:/mnt/extra-addons odoo
 ```
 
 
-Then build the Execution container and run it using the data container above
-hostame to be set to work with the right configuration file
-```
-cd execution
-docker build -t="openerp/execution" .
-docker run -t -i -p 8069:8069 --hostname=odoocontainer --name="openerp" --volumes-from mydata --volumes-from mysources openerp/execution /bin/bash
-```
 
 ## A few how tos
 
-### starting and stoping the container without loosing the shell
-Once the execution container has been run, you can access openerp from your browser going to `localhost:8069`
-
-Do not `exit` from the container shell as it gives you a view on what is going on. If you want to stop it, prefer `docker stop openerp` from another terminal. When you want to start it again :
+### get running logs on servers
 
 ```
-docker start openerp
-docker attach openerp
+docker logs -f odoo-container
 ```
-sends you back inside the container main shell
 
-### testing alternative source
+### get inside the container
+Pay attention you have no root access inside this container
+```
+docker exec -ti odoo-container bash
+```
 
-mount directly your sources being tested inside the execution container by replacing the `--volumes-from mysources` part in the `docker run` command by a `-v /sourcedir/on/your/computer:/opt/openerp`
-
-### uploading a test of the production database
-
-Make a backup of the database
-
-Start your execution container with a new data volume
-from localhost:8069 do an upload from the dump copy
+### execute psql command on the database
 
 
 
