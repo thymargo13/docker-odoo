@@ -26,8 +26,12 @@ docker run -d -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo --name postgresdb 
 
 Start the Odoo container
 ```
-docker run-d  -p 8069:8069 --name odoo-container --link postgresdb:db  -v <absolute path to odoo sources>:odoo-sources -v <absolut path to your module sources>:/mnt/extra-addons odoo yvnicolas/odoo
+docker run-d  -p 8069:8069 --name odoo-container --link postgresdb:db  -v <absolute path to odoo sources>:/opt/odoo/sources -v <absolute path to your module sources>:/mnt/extra-addons odoo yvnicolas/odoo
 ```
+
+All odoo options added at the end of the `docker run` line will be passed to odoo.
+Default config file used for launch is `/opt/odoo/openerp-server.conf`
+You need to have at least one module in extra-addons otherwise your container will fail. (you can also remedy that by changing the conf file and suppressing the `/mnt/extra-addons` part of the addons line
 
 
 
