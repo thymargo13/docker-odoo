@@ -7,7 +7,7 @@ The image is adapted from the official odoo image that can not simply achieve th
 
 However you can derive lots of things from the official odoo image howto.
 
-Supported tags and respective `Dockerfile` links :
+## Supported tags and respective `Dockerfile` links :
 
 * `latest` [Dockerfile](https://github.com/yvnicolas/docker-odoo/blob/master/Dockerfile)
 
