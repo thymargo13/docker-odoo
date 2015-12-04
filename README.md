@@ -16,7 +16,7 @@ Supported tags and respective `Dockerfile` links :
 ### odoo sources git preparation
 
 Whereever you want to locate them
-``
+```
 git clone https://github.com/odoo/odoo.git
 # the image is suitable for odoo 8
 git checkout 8.0  # or what ever sub branch you want to use
