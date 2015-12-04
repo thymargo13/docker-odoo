@@ -7,12 +7,16 @@ The image is adapted from the official odoo image that can not simply achieve th
 
 However you can derive lots of things from the official odoo image howto.
 
+Supported tags and respective `Dockerfile` links :
+
+* `latest` [Dockerfile](https://github.com/yvnicolas/docker-odoo/blob/master/Dockerfile)
+
 ## how to use it
 
 ### odoo sources git preparation
 
 Whereever you want to locate them
-```
+``
 git clone https://github.com/odoo/odoo.git
 # the image is suitable for odoo 8
 git checkout 8.0  # or what ever sub branch you want to use
@@ -49,8 +53,10 @@ Pay attention you have no root access inside this container
 docker exec -ti odoo-container bash
 ```
 
-### execute psql command on the database
-
+### postgres console into the database
+```
+docker exec -ti postgresdb su -c psql postgres
+```
 
 
 
