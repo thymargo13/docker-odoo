@@ -58,6 +58,15 @@ docker exec -ti odoo-container bash
 docker exec -ti postgresdb su -c psql postgres
 ```
 
+### populate the data base with a preexisting dum
+
+```
+docker exec -ti postgresdb su postgres
+# first create the db owned by odoo postgres user
+createdb -O odoo <database name>
+# then restore the dump (you need to have the dump file accessible from your postgres container)
+pg_restore -d <database name> -Fc <path to dump file>
+```
 
 
 
