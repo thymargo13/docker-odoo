@@ -41,6 +41,13 @@ RUN mkdir /var/lib/odoo \
     && chmod ugo+x /entrypoint.sh \
     && chown odoo:odoo /entrypoint.sh
 
+# additionnal modules to be installed
+#
+
+RUN apt-get install -y --no-install-recommends \
+    node-less \
+    && apt-get purge -y --auto-remove
+    
 VOLUME ["/var/lib/odoo", "/mnt", "/opt/odoo"]
 USER odoo
 
