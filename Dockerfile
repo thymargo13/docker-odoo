@@ -27,8 +27,8 @@ RUN set -x; \
 EXPOSE 8069 8071
 
 # Set the default config file
-COPY ./openerp-server.conf /opt/odoo/
-COPY ./entrypoint.sh /
+COPY openerp-server.conf /opt/odoo/
+COPY entrypoint.sh /
 ENV OPENERP_SERVER /opt/odoo/openerp-server.conf
 
  # explicitly set user/group IDs

@@ -22,6 +22,8 @@ git clone https://github.com/odoo/odoo.git
 git checkout 8.0  # or what ever sub branch you want to use
 ```
 
+### Starting containers
+
 Start a PostgreSQL server
 
 ```
@@ -37,7 +39,19 @@ All odoo options added at the end of the `docker run` line will be passed to odo
 Default config file used for launch is `/opt/odoo/openerp-server.conf`
 You need to have at least one module in extra-addons otherwise your container will fail. (you can also remedy that by changing the conf file and suppressing the `/mnt/extra-addons` part of the addons line
 
+### Networking configurations
 
+the `--link` option is the old way that docker initially used to link containers together. They do not guarantee support for the long term for that. The preferred way to go is to use the `docker network`
+features, although this image still works fine with it.
+
+With a bit of simplification, the docker networking feature enables to create containers networks in which a DNS feature will automatically resolve IP adresses with containers names.
+
+After you create your postgres containers, create a network and connect your database to it :
+```
+docker network create odoonet
+docker network connect odoonet postgresdb
+```
+Then when you launch your odoo container replace the `--link postgresdb:db` option with `-e "HOST=postgresdb" --network=odoonet`. The `-e` part sets up the HOST environment variable to the db container name which the image links to the `db_host` odoo configuration variable and the `--network` part would be equivalent for the container to a `docker network connect odoonet` command.
 
 ## A few how tos
 
